@@ -1,0 +1,139 @@
+openapi: 3.0.1
+info:
+  title: Microservicio de Clientes
+  description: "Este microservicio gestiona las operaciones relacionadas con los clientes,\
+    \ como la creación, consulta y actualización de clientes."
+  version: 1.0.0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /api/clientes/{id}:
+    get:
+      tags:
+      - cliente-controller
+      summary: Esta operación permite buscar por idcliente
+      operationId: getClienteById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Servicio funcionando correctamente
+          content:
+            application/json: {}
+        "500":
+          description: Error interno del servidor
+    put:
+      tags:
+      - cliente-controller
+      summary: Esta operación permite actualizar datos de clientes
+      operationId: updateCliente
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cliente"
+        required: true
+      responses:
+        "200":
+          description: Operación ejecutada correctamente
+          content:
+            application/json: {}
+        "500":
+          description: Error interno del servidor
+    delete:
+      tags:
+      - cliente-controller
+      summary: Esta operación permite eliminar clientes
+      operationId: deleteCliente
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Operación ejecutada correctamente
+          content:
+            application/json: {}
+        "500":
+          description: Error interno del servidor
+  /api/clientes:
+    get:
+      tags:
+      - cliente-controller
+      summary: Esta operación permite listar clientes
+      operationId: getAllClientes
+      responses:
+        "200":
+          description: Servicio funcionando correctamente
+          content:
+            application/json: {}
+        "500":
+          description: Error interno del servidor
+    post:
+      tags:
+      - cliente-controller
+      summary: Esta operación permite crear clientes
+      operationId: createCliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cliente"
+        required: true
+      responses:
+        "200":
+          description: Operación ejecutada correctamente
+          content:
+            application/json: {}
+        "500":
+          description: Error interno del servidor
+components:
+  schemas:
+    Cliente:
+      required:
+      - apellido
+      - dni
+      - email
+      - nombre
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identificador único del cliente en la base de datos
+          format: int64
+          example: 1
+        nombre:
+          type: string
+          description: Nombre del cliente
+          example: Juan
+        apellido:
+          type: string
+          description: Apellido del cliente
+          example: Pérez
+        dni:
+          pattern: "^[0-9]{8}$"
+          type: string
+          description: Documento Nacional de Identidad del cliente (DNI)
+          example: "12345678"
+        email:
+          type: string
+          description: Correo electrónico del cliente
+          example: juan.perez@example.com
+      description: "Representa a un cliente en el sistema, con información personal\
+        \ básica como nombre, apellido, DNI y correo electrónico."
